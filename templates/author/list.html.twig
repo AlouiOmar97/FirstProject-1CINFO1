@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AuthorController!{% endblock %}
+
+{% block body %}
+<div>
+    <h1>List of Authors ✅</h1>
+    {% for author in authors %}
+    <p><b>Username : </b> {{ author.username }} </p>
+    <p><b>Email : </b> {{ author.email }} </p>
+    <p><b>Number of Books : </b> {{ author.nb_books }} </p><hr>
+    {% endfor %}
+</div>
+{% endblock %}

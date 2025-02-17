@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!{% endblock %}
+
+{% block body %}
+<h1>
+Hello {{ nom ~ ' ' ~ag }} , {{ ag }}
+</h1>
+{# Ceci est un commentaire #}
+<br>
+
+<ul>
+{% if t is not empty %}
+{{ t[0] ~ ' ' ~ t[1] }}
+{% for item in t %}
+<li>{{ item | upper | lower }}</li>
+{% endfor %}
+{% else %}
+<p>Le tableau est vide.</p>
+{% endif %}
+</ul>
+
+<h2>Contenu du tableau</h2>
+{% for item in t %}
+<p>{{ item }}</p>
+{% else %}
+<p>LE TABLEAU EST VIDE.</p>
+{% endfor %}
+{% set pi = 3.14 %}
+<p>{{ pi }}</p>
+
+{% set foo = [3, {"mot": "soleil"}] %} 
+<p> {{ foo[0]}}  </p>
+<p> {{ foo[1]['mot']}}  </p>
+
+{% set parag %}
+<h5>Hello</h5>
+{% endset %}
+
+{{ parag }}{{ parag }}{{ parag }}{{ parag }}
+
+    {{ dump(foo) }}
+<a href="{{ path('app_home')}}">Vers Home</a>
+{% endblock %}
