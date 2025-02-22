@@ -1,14 +1,32 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AuthorController!{% endblock %}
+{% block title %}Hello{% endblock %}
 
 {% block body %}
+<h1>List of Authors </h1>
 <div>
-    <h1>List of Authors ✅</h1>
-    {% for author in authors %}
-    <p><b>Username : </b> {{ author.username }} </p>
-    <p><b>Email : </b> {{ author.email }} </p>
-    <p><b>Number of Books : </b> {{ author.nb_books }} </p><hr>
-    {% endfor %}
+{#
+{% if authors is not empty and authors is defined %}
+{% for author in authors %} {{ author.username }} {% endfor %}
+{% else %}
+No authors Found.
+{% endif %}
+#}
+{% set nbOfBooks = 0 %}
+{% for author in authors %}
+<img src="{{ asset(author.picture) }}" alt="{{'Description of the image : ' ~ author.username }}" height="150px" width="150px">
+<p><b>Username : </b> {{ author.username | upper }} </p>
+<p><b>Email : </b> {{ author.email }} </p>
+<p><b>Number of Books : </b> {{ author.nb_books }} </p>
+<a href="{{ path('app_author_details', {id: author.id}) }}">Details</a>
+<hr>
+{% set nbOfBooks= nbOfBooks + author.nb_books %}
+{% else %}
+<p>Not authors Found.</p>
+{% endfor %}
+<div>
+<p><b>Number of Authors : </b>{{ authors | length }}</p>
+<p><b>Number of Books : </b>{{ nbOfBooks }}</p>
+</div>
 </div>
 {% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Author Details{% endblock %}
+
+{% block body %}
+<h1>Author Details </h1>
+{% if author %}
+<img src="{{ asset(author.picture) }}" alt="{{'Description of the image : ' ~ author.username }}" height="150px" width="150px">
+<p><b>Username : </b> {{ author.username | upper }} </p>
+<p><b>Email : </b> {{ author.email }} </p>
+<p><b>Number of Books : </b> {{ author.nb_books }} </p>
+{% else %}
+<h3>Author Not Found.</h3>
+{% endif %}
+<a href="{{ path('app_author_list')}}">Return to List</a>
+{% endblock %}

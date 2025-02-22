@@ -24,7 +24,7 @@ final class HomeController extends AbstractController
 
     #[Route('/hello/nom/{nom}/age/{age}', name:'app_home_hello')]
     public function hello($nom, $age){
-        $arr = ["Hello", "1CINFO1"];
+        $arr = ["Hello", "1CINFO1", "Salut", 55];
         $x= 55;
         //dd($arr);
         
