@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Author;
 use App\Repository\AuthorRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -34,12 +36,27 @@ final class AuthorController extends AbstractController
     }
 
     #[Route('/author/list', name:'app_author_list')]
-    public function listAuthor(AuthorRepository $aR){ 
-        $authors = $aR->findAll();
-        dd($authors);
+    public function listAuthor(AuthorRepository $authorRepository){ 
+        $authorsDB= $authorRepository->findAll();
         return $this->render('author/list.html.twig',[
-            'authors' => $this->authors
+            'authors' => $authorsDB
         ]);
+    }
+
+    #[Route('/author/add/{us}', name:'app_author_add')]
+    public function addAuthor(EntityManagerInterface $em, $us){
+        $author = new Author();
+        $author->setUsername($us);
+        $author->setEmail('abc@gmail.com');
+        $author->setPicture('/images/Victor-Hugo.jpg');
+        $author->setNbBooks(250);
+        $em->persist($author);
+        $em->flush();
+        dump("Ajout d'un nouvel auteur !");
+        dump($author);
+        die();
+        //dd($author);
+
     }
 
     #[Route('/author/details/{id}', name: 'app_author_details')]
