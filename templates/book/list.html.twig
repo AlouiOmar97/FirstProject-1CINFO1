@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Book List{% endblock %}
+
+{% block body %}
+<div>
+<h1>Book List</h1>
+<a href="{{ path('app_book_add') }}">Add Book</a>
+<div>
+<table border="2px">
+<tr>
+<th>Title</th>
+<th>Publication Date</th>
+<th>Category</th>
+<th>Published</th>
+<th>Author</th>
+<th colspan="3">Actions</th>
+</tr>
+{% set nbPublishedBooks = 0 %}
+{% for book in books %}
+<tr>
+<td> {{ book.title }} </td>
+<td> {{ book.publicationDate | date('d-m-Y') }} </td>
+<td> {{ book.category }} </td>
+<td> 
+{{ book.enabled? 'Yes' : 'No' }}
+
+{#
+{% if book.enabled %}
+    Yes
+{% else %}
+    No
+{% endif %}
+#}
+
+{% if book.enabled %}
+    {% set nbPublishedBooks= nbPublishedBooks + 1 %}
+{% endif %}
+ </td>
+ <td> <a href="{{ path('app_author_details', {id: book.author.id})}}">{{ book.author.username }}</a></td>
+ <td><a href="{{ path('app_book_details', {'id': book.id }) }}">Details</a></td>
+ <td><a href="{{ path('app_book_update', {'id': book.id }) }}">Update</a></td>
+ <td><a href="{{ path('app_book_delete', {'id': book.id }) }}">Delete</a></td>
+</tr>
+{% else %}
+<td colspan="5">No Books found</td>
+{% endfor %}
+</table>
+</div>
+<p><b>Number of Published Books : </b> {{ nbPublishedBooks }} </p>
+<p><b>Number of Unpublished Books : </b> {{ books | length - nbPublishedBooks }} </p>
+</div>
+{% endblock %}
