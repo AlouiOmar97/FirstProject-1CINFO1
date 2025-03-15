@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Book List{% endblock %}
+{% block title %}{{ title }}{% endblock %}
 
 {% block body %}
 <div>
-<h1>Book List</h1>
+<h1>{{ title }}</h1>
 <a href="{{ path('app_book_add') }}">Add Book</a>
 <div>
 <table border="2px">
@@ -24,6 +24,7 @@
 <td> {{ book.category }} </td>
 <td> 
 {{ book.enabled? 'Yes' : 'No' }}
+
 
 {#
 {% if book.enabled %}
@@ -49,5 +50,8 @@
 </div>
 <p><b>Number of Published Books : </b> {{ nbPublishedBooks }} </p>
 <p><b>Number of Unpublished Books : </b> {{ books | length - nbPublishedBooks }} </p>
+{% if c is defined %}
+<p><b>Number of Books of ABC : </b> {{ c }} </p>
+{% endif %}
 </div>
 {% endblock %}

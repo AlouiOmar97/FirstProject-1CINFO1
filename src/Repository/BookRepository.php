@@ -19,17 +19,58 @@ class BookRepository extends ServiceEntityRepository
     //    /**
     //     * @return Book[] Returns an array of Book objects
     //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('b')
-    //            ->andWhere('b.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('b.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+        public function findBooksByAuthor()
+        {
+            return $this->createQueryBuilder('b')
+                ->join('b.author','a')
+                ->addSelect('a')
+                ->where('a.username = :val')
+                ->setParameter('val','abc')
+                ->getQuery()
+                ->getResult()
+            ;
+        }
+
+        public function CountBooksByAuthor($username)
+        {
+            return $this->createQueryBuilder('b')
+                ->select('COUNT(b.id)')
+                ->join('b.author','a')
+                //->addSelect('a')
+                ->where('a.username = :val')
+                ->setParameter('val',$username)
+                ->getQuery()
+                ->getSingleScalarResult()
+            ;
+        }
+
+        public function countBooksByEachAuthor()
+        {
+            return $this->createQueryBuilder('b')
+                ->select('a.username, COUNT(b.id)')
+                ->join('b.author','a')
+                ->groupBy('a.username')
+                ->getQuery()
+                ->getDQL()
+            ;
+        }
+
+        public function countBooksByEachAuthorDQL(){
+            $em= $this->getEntityManager();
+            $query= $em->createQuery("SELECT a.username, COUNT(b.id) FROM App\Entity\Book b INNER JOIN b.author a GROUP BY a.username");
+            $result= $query->getResult();
+            return $result;
+        }
+
+        public function findBooksByAuthorDQL($username)
+        {
+            return $this->getEntityManager()
+                        ->createQuery("SELECT a, b FROM App\Entity\Book b INNER JOIN b.author a WHERE a.username LIKE :username")
+                        ->setParameter('username', '%'.$username.'%')
+                        ->getResult()
+            ;
+        }
+
 
     //    public function findOneBySomeField($value): ?Book
     //    {

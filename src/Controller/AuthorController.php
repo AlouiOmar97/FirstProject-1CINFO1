@@ -137,4 +137,10 @@ final class AuthorController extends AbstractController
         ]);
     }
 
+    #[Route('/author/search/email/{email}', name:'app_author_search_email')]
+    public function searchByEmail($email, AuthorRepository $authorRepository){
+        $authors= $authorRepository->findAuthorByEmail($email);
+        dd($authors);
+    }
+
 }

@@ -25,6 +25,7 @@ final class BookController extends AbstractController
     public function bookList(BookRepository $bookRepository){
         $books = $bookRepository->findAll();
         return $this->render('book/list.html.twig',[
+            'title' => 'Book List',
             'books' => $books
         ]);
     }
@@ -76,5 +77,16 @@ final class BookController extends AbstractController
         $em->remove($book);
         $em->flush();
         return $this->redirectToRoute('app_book_list');
+    }
+
+    #[Route('/book/search', name:'app_book_search')]
+    public function searchByEmail(BookRepository $bookRepository){
+        $books= $bookRepository->findBooksByAuthorDQL('abc');
+        //dd($books);
+        return $this->render('book/list.html.twig',[
+            'title' => 'Search',
+            'books' => $books,
+            'c' => $bookRepository->CountBooksByAuthor('abc')
+        ]);
     }
 }

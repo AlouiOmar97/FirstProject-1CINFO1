@@ -19,17 +19,20 @@ class AuthorRepository extends ServiceEntityRepository
     //    /**
     //     * @return Author[] Returns an array of Author objects
     //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('a')
-    //            ->andWhere('a.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('a.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+        public function findAuthorByEmail($email)
+        {
+            return $this->createQueryBuilder('a')
+           // ->select('a.username')
+                ->andWhere('a.email LIKE ?1')
+              //->andWhere('a.username = :username')
+                ->setParameter('1', '%'.$email.'%')
+                //->setParameter('userame', 'abc')
+                ->orderBy('a.id', 'DESC')
+                ->setMaxResults(10)
+                ->getQuery()
+                ->getResult()
+            ;
+        }
 
     //    public function findOneBySomeField($value): ?Author
     //    {
